@@ -27,7 +27,7 @@ def runCEA(outputFile, press, OF, fuel, ox, pressStep, ofStep):
    # Open Chrome to NASA CEA
    browser.get(url)
 
-   # Choice Rocket Propulsion Analysis
+   # Choose Rocket Propulsion Analysis
    submit()
 
    # Enter the pressure range in CEA
@@ -45,12 +45,12 @@ def runCEA(outputFile, press, OF, fuel, ox, pressStep, ofStep):
    # Submit Range of Pressures
    submit()
    
-   # Choose RP-1 Fuel
+   # Choose Fuel
    fuelEntry = browser.find_elements_by_name("fuchoice")
    fuelEntry[fuel].click()
    submit()
    
-   # Choose LOX
+   # Choose Oxidizer
    oxEntry = browser.find_elements_by_name("oxchoice")
    oxEntry[ox].click()
    submit()
@@ -68,13 +68,33 @@ def runCEA(outputFile, press, OF, fuel, ox, pressStep, ofStep):
    # Skip Exit Conditions
    submit()
    
+   # Select Tabulate Results Option
+   tabulateOption = browser.find_elements_by_name("doThis")
+   tabulateOption[1].click()
+   submit()
+
+   # Setup Table Entries
+   parameter1 = browser.find_element_by_name("plt1")
+   parameter1.send_keys("t")
+   parameter2 = browser.find_element_by_name("plt2")
+   parameter2.send_keys("cp")
+   parameter3 = browser.find_element_by_name("plt3")
+   parameter3.send_keys("p")
+  
    # Perform CEA Analysis
    submit()
    
    # Copy All Text From output to a text file 
-   output = browser.find_element_by_class_name("outputContent")
+   output = browser.find_element_by_link_text("Tabulation")
+   output.click()
+   outputdata = browser.find_element_by_tag_name("pre")
+
+   # Get rid of column labels
+   outputlines = outputdata.text.splitlines()[1:]
    outputFile = open(outputFile, "a")
-   outputFile.write(output.text)
+   for line in outputlines:
+      outputFile.write(line)
+      outputFile.write("\n")
    outputFile.close() 
 
 def quitBrowser():
