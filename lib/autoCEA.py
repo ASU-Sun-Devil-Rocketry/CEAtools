@@ -77,9 +77,11 @@ def runCEA(outputFile, press, OF, fuel, ox, pressStep, ofStep):
    parameter1 = browser.find_element_by_name("plt1")
    parameter1.send_keys("t")
    parameter2 = browser.find_element_by_name("plt2")
-   parameter2.send_keys("cp")
+   parameter2.send_keys("gam")
    parameter3 = browser.find_element_by_name("plt3")
-   parameter3.send_keys("p")
+   parameter3.send_keys("cp")
+   parameter4 = browser.find_element_by_name("plt4")
+   parameter4.send_keys("p")
   
    # Perform CEA Analysis
    submit()
